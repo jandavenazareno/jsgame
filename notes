@@ -1,0 +1,114 @@
+
+let canvas = document.getElementById("myCanvas");
+let ctx = canvas.getContext("2d");
+
+
+let x = canvas.width/2;
+let y = canvas.height-30;
+let dx = 2;
+let dy = -2;
+
+let ballRadius = 20;
+
+let xc, yc,zc;
+
+let paddleHeight = 10;
+let paddleWidth = 75;
+let paddleX = (canvas.width-paddleWidth) / 2;
+
+let rightPressed = false;
+let leftPressed = false;
+
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
+//ball
+function drawBall() {
+    // drawing code
+	ctx.beginPath();
+	ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+	// ctx.fillStyle = "#0095DD";
+	ctx.fillStyle = "rgb(" + xc + "," + yc + "," + zc + ")";;
+    ctx.fill();
+	ctx.closePath();
+  
+}
+
+//paddle
+function drawPaddle() {
+    ctx.beginPath();
+    ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+    ctx.fillStyle = "#0095DD";
+    ctx.fill();
+    ctx.closePath();
+}
+
+function draw(){
+	ctx.clearRect(0,0, canvas.width, canvas.height);
+	drawBall();
+	x += dx;
+    y += dy;
+
+    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+    	dx = -dx;
+    	random_bg_color();
+	}
+	if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
+    	dy = -dy;
+    	random_bg_color();
+	}
+
+}
+
+function random_bg_color() {
+     xc = Math.floor(Math.random() * 256);
+     yc = Math.floor(Math.random() * 256);
+     zc= Math.floor(Math.random() * 256);
+  //   var bgColor = "rgb(" + x + "," + y + "," + z + ")";
+ 	// console.log(bgColor);
+  
+
+}
+
+
+
+
+function keyDownHandler(e) {
+    if(e.key == "Right" || e.key == "ArrowRight") {
+        rightPressed = true;
+    }
+    else if(e.key == "Left" || e.key == "ArrowLeft") {
+        leftPressed = true;
+    }
+}
+
+function keyUpHandler(e) {
+    if(e.key == "Right" || e.key == "ArrowRight") {
+        rightPressed = false;
+    }
+    else if(e.key == "Left" || e.key == "ArrowLeft") {
+        leftPressed = false;
+    }
+}
+
+
+setInterval(draw, 10);
+
+
+// ctx.beginPath();
+// ctx.rect(20, 40, 50, 50);
+// ctx.fillStyle = "blue";
+// ctx.fill();
+// ctx.closePath();
+
+// ctx.beginPath();
+// ctx.arc(240, 160, 20, 0, Math.PI*2, true);
+// ctx.fillStyle = "yellow";
+// ctx.fill();
+// ctx.closePath();
+
+// ctx.beginPath();
+// ctx.rect(160, 10, 100, 40);
+// ctx.strokeStyle = "rgba(200, 0, 205, 0.5)";
+// ctx.stroke();
+// ctx.closePath();
